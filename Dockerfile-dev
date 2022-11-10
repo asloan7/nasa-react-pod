@@ -1,0 +1,28 @@
+# syntax=docker/dockerfile:1
+FROM node:16-alpine3.15 as build
+
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package*.json ./
+RUN npm install
+RUN npm install react-scripts@4.0.3 -g
+COPY . ./
+
+#RUN npm run build
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
+
+# https://mherman.org/blog/dockerizing-a-react-app/
+# Build: 
+# docker build -f ./Dockerfile-dev . -t nasa-pod:1.0.0-dev
+# docker image ls
+
+# Start:
+# docker run --init -p 3000:3000 -d --name nasa-pod-dev nasa-pod:1.0.0-dev
+# docker ps --no-trunc
+# docker logs <container id>
+# http://localhost:3000
+# docker exec -it <container id> /bin/sh
+# ps aux
+# docker stop <container id>

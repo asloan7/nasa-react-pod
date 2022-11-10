@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+FROM node:16-alpine3.15 as build
+
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package*.json ./
+RUN npm ci
+RUN npm install react-scripts@4.0.3 -g
+COPY . ./
+RUN npm run build
+
+# production environment
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+# https://mherman.org/blog/dockerizing-a-react-app/
+# Build: 
+# docker pull nginx:stable-alpine
+# docker build -f ./Dockerfile-prod . -t nasa-pod:1.0.0
+# docker image ls
+
+# Start:
+# docker run --init -p 3000:80 -d --name nasa-pod nasa-pod:1.0.0
+# docker ps --no-trunc
+# docker logs <container id>
+# http://localhost:3000
+# docker exec -it <container id> /bin/sh
+# ps aux
+# docker stop <container id>
+# docker tag cb62ddf4a024 hub.comcast.net/corti/nasa-pod:1.0.0
+# docker push hub.comcast.net/corti/nasa-pod:1.0.0
+
+# then kubernetes
+
