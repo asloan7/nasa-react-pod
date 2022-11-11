@@ -13,7 +13,6 @@ COPY . ./
 EXPOSE 3000
 CMD [ "npm", "start" ]
 
-# https://mherman.org/blog/dockerizing-a-react-app/
 # Build: 
 # docker build -f ./Dockerfile-dev . -t nasa-pod:1.0.0-dev
 # docker image ls
