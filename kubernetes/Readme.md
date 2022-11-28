@@ -1,6 +1,6 @@
 # Kubernetes Notes
 
-- tested on Windows with Rancher Desktop, kubernetes enabled with Traefik LB/smart router (1.24)
+- tested on Windows with Rancher Desktop, kubernetes enabled (1.24.3) with Traefik LB/smart router
 
 kubectl apply -f service-nginx.yaml
 
@@ -14,4 +14,6 @@ kubectl describe deployment nginx
 
 kubectl get all -A
 
-http://localhost:3000
+(Dockerfile-dev) http://localhost:3000
+
+(Dockerfile-prod) http://localhost
